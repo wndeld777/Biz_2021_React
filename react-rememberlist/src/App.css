@@ -62,8 +62,8 @@ section.main_section {
 }
 
 footer {
-  background-color: black;
-  color: white;
+  background-color: rgb(240, 243, 41);
+  color: black;
   padding: 0.7rem;
 }
 

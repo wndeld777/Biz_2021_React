@@ -8,8 +8,9 @@ import Header from "./Header";
 import Footer from "./Footer";
 import RemBody from "./RemBody";
 import RemList from "./RemList";
+import About from "./About";
 
 // import 된 컴포넌트를 변수(객체)로 export
-export { Header, Footer, RemBody, RemList };
+export { Header, Footer, RemBody, RemList, About };
 
 // import { 사용할 컴포넌트들 } from "index" 와 같이 사용할수 있다
