@@ -9,7 +9,7 @@ function MainNav() {
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="/about">글쓰기</NavLink>
+        <NavLink to="/write">글쓰기</NavLink>
       </li>
       <li>
         <NavLink to="/bbs">로그인</NavLink>
