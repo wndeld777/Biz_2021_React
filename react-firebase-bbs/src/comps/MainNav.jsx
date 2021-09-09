@@ -1,21 +1,29 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import "../css/nav.css";
+import { NavLink } from "react-router-dom";
 
 function MainNav() {
   return (
-    <ul className="main_menu">
+    <ul className="main_nav">
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink exact to="/" activeClassName="active_nav">
+          Home
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/write">글쓰기</NavLink>
+        <NavLink exact to="/write" activeClassName="active_nav">
+          글쓰기
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/bbs">로그인</NavLink>
+        <NavLink exact to="/login" activeClassName="active_nav">
+          로그인
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/bbs">회원가입</NavLink>
+        <NavLink exact to="/join" activeClassName="active_nav">
+          회원가입
+        </NavLink>
       </li>
     </ul>
   );

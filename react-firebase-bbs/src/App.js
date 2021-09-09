@@ -1,21 +1,18 @@
 import "./App.css";
-import MainNav from "./comps/MainNav";
-import Header from "./comps/Header";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import BBsMain from "./comps/BBsMain";
+import { BBsMain, Footer, Header, MainNav } from "./comps";
 import BBsWrite from "./comps/BBsWrite";
-import Footer from "./comps/Footer";
+
 function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <Header />
-        </header>
-
+        <Header />
         <MainNav />
-        <Route path="/" component={BBsMain} exact />
-        <Route path="/write" component={BBsWrite} />
+        <section className="main_section">
+          <Route exact path="/" component={BBsMain} />
+          <Route exact path="/write" component={BBsWrite} />
+        </section>
         <Footer />
       </div>
     </Router>
