@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { firestore } from "../config/FirebaseConfig";
 import moment from "moment";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 // props.history
 /**
@@ -10,13 +11,42 @@ import moment from "moment";
  * 이때 react-router-dom은 매개변수로 history라는 변수를 전달한다
  * history변수는 routing과 관련된 변수이다
  * history.push(URL) : URL로 redirect 하라는 명령이다
+ *
+ * react-router-dom 최신버전에서는
+ * 매개변수를 지정하지 않고 use 함수를 사용하여 history를 사용할수 있다
+ *
+ * react use 로 시작되는 함수들을 Hook 함수라고 한다
+ * Hook 함수 : 가로채기 함수, 시스템(react)에 의해서
+ * 자동으로 실행되거나, 작동되는 일을 수행하는 함수들...
  */
-function BBsWrite({ history }) {
+function BBsWrite() {
+  const history = useHistory();
+
+  // useRouteMatch()
+  // URL 을 통해서 전달된 데이터들
+  // queryString, pathVarriable
+  // ?변수=값	/URL/값
+  const match = useRouteMatch();
+  // /write/:id 로 설정된 Route 에서 id 위치에 담긴 변수 값 가져오기
+  const docId = match.params.id;
   const [bbs, setBBs] = useState({
     b_writer: "",
     b_subject: "",
     b_content: "",
+    b_date: "",
+    b_time: "",
   });
+
+  const findByidFetch = useCallback(async () => {
+    if (docId) {
+      const result = await firestore.collection("bbs").doc(docId).get();
+      if (result.data()) {
+        setBBs(result.data());
+      }
+    }
+  }, [docId]);
+
+  useEffect(findByidFetch, [findByidFetch]);
 
   // onChange Event 핸들러
   // 키보드로 입력한 데이터를 bbs 객체에 setting 하는 일을 수행한다
@@ -34,8 +64,10 @@ function BBsWrite({ history }) {
     // b_date, b_time 칼럼을 추가하겠다
     const saveBBS = {
       ...bbs,
-      b_date: moment().format("YYYY[-]MM[-]DD"),
-      b_time: moment().format("HH:mm:ss"),
+      // bbs.b_date 의 값이 "" 이 아니면 bbs.b_date 를 b_date 칼럼에 저장하고
+      // bbs.b_date 의 값이 "" 이면 moment()... 값을 b_date 칼럼에 저장하라
+      b_date: bbs.b_date || moment().format("YYYY[-]MM[-]DD"), // public/string_01 참조
+      b_time: bbs.b_time || moment().format("HH:mm:ss"),
     };
 
     /**
@@ -46,7 +78,7 @@ function BBsWrite({ history }) {
     firestore
       .collection("bbs")
       //   .add(saveBBS)
-      .doc()
+      .doc(docId)
       .set(saveBBS)
       .then((result) => {
         console.log(result);
@@ -62,6 +94,7 @@ function BBsWrite({ history }) {
           name="b_writer"
           onChange={onChange}
           placeholder="작성자"
+          defaultValue={bbs.b_writer}
         />
       </div>
       <div>
@@ -76,6 +109,7 @@ function BBsWrite({ history }) {
           name="b_subject"
           onChange={onChange}
           placeholder="제목"
+          defaultValue={bbs.b_subject}
         />
       </div>
       <div>
@@ -84,6 +118,7 @@ function BBsWrite({ history }) {
           name="b_content"
           onChange={onChange}
           placeholder="내용"
+          defaultValue={bbs.b_content}
         />
       </div>
       <div>

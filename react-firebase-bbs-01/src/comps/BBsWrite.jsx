@@ -13,7 +13,7 @@ import moment from "moment";
  */
 function BBsWrite({ history }) {
   const [bbs, setBBs] = useState({
-    b_writer: "",
+    b_write: "",
     b_subject: "",
     b_content: "",
   });
@@ -59,7 +59,7 @@ function BBsWrite({ history }) {
       <div>
         <input
           type="text"
-          name="b_writer"
+          name="b_write"
           onChange={onChange}
           placeholder="작성자"
         />

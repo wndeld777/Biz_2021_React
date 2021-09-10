@@ -1,23 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../css/bbsmain.css";
 import { firestore } from "../config/FirebaseConfig";
+import { useHistory } from "react-router-dom";
 
 function BBsMain() {
+  const router = useHistory();
   const [bbsData, setBBsData] = useState([]);
-  const firebaseFetch = () => {
-    firestore
+  const firebaseFetch = async () => {
+    const result = await firestore
       .collection("bbs")
-      .get()
-      .then((bbsList) => {
-        console.log(bbsList.size);
-        bbsList.forEach((bbs) => {
-          console.log(bbs);
-          setBBsData([...bbsData, { ...bbs.data(), id: bbs.id }]);
-        });
-      });
-    // console.log(bbsList);
+      .orderBy("b_date", "desc")
+      .orderBy("b_time", "desc")
+      .get();
+
+    const bbsList = result.docs.map((doc) => {
+      const id = doc.id;
+      return { ...doc.data(), id: id };
+    });
+    setBBsData(bbsList);
   };
-  useEffect(firebaseFetch, []);
+  const fetchCallback = useCallback(firebaseFetch, []);
+  useEffect(fetchCallback, [fetchCallback]);
+
+  bbsBody = bbsData.map((bbs) => {
+    return (
+      <tr
+        key={bbs_id}
+        data-id={bbs_id}
+        onClick={(e) => {
+          const id = e.target.closest("TR").dataset.id;
+          router.push(`/detail/${id}`);
+        }}
+      >
+        <td>{bbs.b_date}</td>
+        <td>{bbs.b_time}</td>
+        <td>{bbs.b_writer}</td>
+        <td>{bbs.b_subject}</td>
+      </tr>
+    );
+  });
 
   return (
     <table className="bbs_list">
@@ -29,18 +50,7 @@ function BBsMain() {
           <th>제목</th>
         </tr>
       </thead>
-      <tbody>
-        {bbsData.map((bbs) => {
-          return (
-            <tr key={bbs.id}>
-              <td>{bbs.b_date}</td>
-              <td>{bbs.b_time}</td>
-              <td>{bbs.b_write}</td>
-              <td>{bbs.b_subject}</td>
-            </tr>
-          );
-        })}
-      </tbody>
+      <tbody>{bbsBody}</tbody>
     </table>
   );
 }
