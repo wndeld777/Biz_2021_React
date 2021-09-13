@@ -1,0 +1,23 @@
+div.main {
+  width: 90%;
+  margin: 5px auto;
+  padding: 10px;
+  text-align: center;
+}
+div input {
+  width: 100%;
+  padding: 1rem;
+}
+div.main_list {
+  width: 100%;
+  margin: 10px auto;
+  border: 1px solid #ccc;
+}
+div th,
+td {
+  width: 8%;
+  padding: 1rem;
+}
+div tr:nth-of-type(2) {
+  background-color: #eee;
+}
