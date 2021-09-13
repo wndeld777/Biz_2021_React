@@ -7,11 +7,11 @@ function BucketMain() {
       <input placeholder="버킷에 추가할 내용을 입력하세요..." />
       <div className="main_list">
         <tr>
-          <th>FLAG</th>
-          <th>날짜</th>
-          <th>BUCKET</th>
-          <th>완료</th>
-          <th>취소</th>
+          <th width="10%">FLAG</th>
+          <th width="20%">날짜</th>
+          <th width="40%">BUCKET</th>
+          <th width="20%">완료</th>
+          <th width="10%">취소</th>
         </tr>
         <tr>
           <td>일반</td>
