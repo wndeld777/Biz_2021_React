@@ -1,5 +1,6 @@
 # API KEY
 FirebaseConfig.*
+mongoConfig.json
 
 # Logs
 logs

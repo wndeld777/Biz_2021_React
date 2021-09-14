@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import BuckList from "./BuckList";
 import BuckInput from "./BuckInput";
 import uuid from "react-uuid";
@@ -8,7 +8,16 @@ function BuckMain() {
   // 버킷리스트를 담을 배열
   const [bucketList, setBuckList] = useState([]);
 
-  const buck_insert = (bucket_text) => {
+  const bucketFetch = useCallback(async () => {
+    const res = await fetch("http://localhost:5000/data");
+    const bucketList = await res.json();
+    console.log("BUCKET");
+    await setBuckList(bucketList);
+  }, []);
+
+  useEffect(bucketFetch, [bucketFetch]);
+
+  const buck_insert = async (bucket_text) => {
     const bucket = {
       b_id: uuid(),
       b_start_date: moment().format("YYYY[-]MM[-]DD HH:mm:ss"),
@@ -19,7 +28,17 @@ function BuckMain() {
       b_cancel: false,
     };
     // 원래있던 bucketList에 새로운 bucket을 추가하기
-    setBuckList([...bucketList, bucket]);
+    await setBuckList([...bucketList, bucket]);
+
+    const fetch_option = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bucket),
+    };
+    await fetch("http://localhost:5000/insert", fetch_option);
+    // await bucketFetch();
   };
 
   // 리스트에서 FLAG항목을 클릭하면 실행할 함수
