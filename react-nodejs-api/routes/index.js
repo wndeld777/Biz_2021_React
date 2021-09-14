@@ -21,14 +21,14 @@ router.get("/", function (req, res, next) {
  * react 로 부터 데이터를 받아서 mongoDB 에 ionsert 를 수행하기
  */
 router.post("/insert", async (req, res) => {
-  console.table(req.body);
+  // console.table(req.body);
   const result = await BUCKET.create(req.body);
   await res.json(result);
 });
 
 router.get("/data", async (req, res) => {
   const result = await BUCKET.find({});
-  res.json(result);
+  await res.json(result);
 });
 
 module.exports = router;
