@@ -79,6 +79,10 @@ router.put("/bucket", async (res, req) => {
 });
 
 /**
+ * 3 Tier(3 layer App)
+ * react -> node -> atlas
+ * atlas -> node -> react
+ *
  * findOne() 이 return 하는 doc 가 성능상 문제로
  * null 값이 되어 overwrite() 가 비정상 작동되므로 사용하지말자!!
  */
