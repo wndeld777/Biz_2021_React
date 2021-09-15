@@ -11,4 +11,6 @@ const bucket = Schema({
   b_cancel: Boolean,
 });
 
-module.exports = mongoose.model("bucketList", bucket);
+// bucket : Collection 이름
+// 실제 DB 에 저장될때는 buckets 라는 이름으로 등록된다
+module.exports = mongoose.model("bucket", bucket);

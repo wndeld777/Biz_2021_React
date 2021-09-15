@@ -7,9 +7,11 @@ import moment from "moment";
 function BuckMain() {
   // 버킷리스트를 담을 배열
   const [bucketList, setBuckList] = useState([]);
+  // db 에 update 할 state
+  const [saveBucket, setSaveBucket] = useState({});
 
   const bucketFetch = useCallback(async () => {
-    const res = await fetch("http://localhost:5000/data");
+    const res = await fetch("http://localhost:5000/api/get");
     const bucketList = await res.json();
     console.log("BUCKET");
     await setBuckList(bucketList);
@@ -27,6 +29,8 @@ function BuckMain() {
       b_end_check: false,
       b_cancel: false,
     };
+
+    // 화면에 보여질 리스트에 추가하기
     // 원래있던 bucketList에 새로운 bucket을 추가하기
     await setBuckList([...bucketList, bucket]);
 
@@ -37,9 +41,27 @@ function BuckMain() {
       },
       body: JSON.stringify(bucket),
     };
-    await fetch("http://localhost:5000/insert", fetch_option);
+    await fetch("http://localhost:5000/api/bucket", fetch_option);
     // await bucketFetch();
   };
+
+  const putBucket = async () => {
+    console.log(saveBucket);
+    const putFetchOption = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(saveBucket),
+    };
+    const result = await fetch(
+      "http://localhost:5000/api/bucket",
+      putFetchOption
+    );
+    console.log(result.json());
+  };
+
+  useEffect(putBucket, [saveBucket]);
 
   // 리스트에서 FLAG항목을 클릭하면 실행할 함수
   const flag_change = (id) => {
@@ -48,10 +70,9 @@ function BuckMain() {
        * 전달받은 id와 같은 항목의 flag를 1 증가시키기
        */
       if (bucket.b_id === id) {
-        return {
-          ...bucket,
-          b_flag: bucket.b_flag + 1,
-        };
+        const _temp = { ...bucket, b_flag: bucket.b_flag + 1 };
+        setSaveBucket(_temp);
+        return _temp;
       } else {
         return bucket;
       }
@@ -65,7 +86,9 @@ function BuckMain() {
   const bucket_update = (id, title) => {
     const _bucketList = bucketList.map((bucket) => {
       if (bucket.b_id === id) {
-        return { ...bucket, b_title: title };
+        const _temp = { ...bucket, b_title: title };
+        setSaveBucket(_temp);
+        return _temp;
       } else {
         return bucket;
       }
@@ -100,12 +123,13 @@ function BuckMain() {
   const bucket_complet = (id) => {
     const _bucketList = bucketList.map((bucket) => {
       if (bucket.b_id === id) {
-        return {
+        const _temp = {
           ...bucket,
           b_end_date: moment().format("YYYY[-]MM[-]DD HH:mm:ss"),
-          // bucket.b_end_date ||
           b_end_check: !bucket.b_end_check,
         };
+        setSaveBucket(_temp);
+        return _temp;
       } else {
         return bucket;
       }
@@ -116,10 +140,9 @@ function BuckMain() {
   const bucket_cancel = (id) => {
     const _bucketList = bucketList.map((bucket) => {
       if (bucket.b_id === id) {
-        return {
-          ...bucket,
-          b_cancel: !bucket.b_cancel,
-        };
+        const _temp = { ...bucket, b_cancel: !bucket.b_cancel };
+        setSaveBucket(_temp);
+        return _temp;
       } else {
         return bucket;
       }

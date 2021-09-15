@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const BUCKET = require("../models/bucket");
 /**
  * RESTFul
  * 클라이언트에서 요청을 할때
@@ -37,26 +37,26 @@ const router = express.Router();
  * 			router.delete("/book/delete")
  */
 
-const retData = [
-  {
-    b_id: "0001",
-    b_flag: 0,
-    b_title: "API 서버",
-    b_start_date: "2021-09-15 10:00:00",
-    b_end_date: "",
-    b_end_check: false,
-    b_cancel: false,
-  },
-  {
-    b_id: "0002",
-    b_flag: 0,
-    b_title: "우리나라만세",
-    b_start_date: "2021-09-15 10:00:00",
-    b_end_date: "",
-    b_end_check: false,
-    b_cancel: false,
-  },
-];
+// const retData = [
+//   {
+//     b_id: "0001",
+//     b_flag: 0,
+//     b_title: "API 서버",
+//     b_start_date: "2021-09-15 10:00:00",
+//     b_end_date: "",
+//     b_end_check: false,
+//     b_cancel: false,
+//   },
+//   {
+//     b_id: "0002",
+//     b_flag: 0,
+//     b_title: "우리나라만세",
+//     b_start_date: "2021-09-15 10:00:00",
+//     b_end_date: "",
+//     b_end_check: false,
+//     b_cancel: false,
+//   },
+// ];
 
 /**
  * POST 로 받는 데이터는 주로 form 에 담긴 데이터이다
@@ -64,22 +64,47 @@ const retData = [
  * request의 body 에 담겨서 전달되기 때문에
  * req.body에서 데이터를 추출하면 된다
  */
-router.post("/bucket", (req, res) => {
+router.post("/bucket", async (req, res) => {
   const body = req.body;
-  console.log("데이터 추가하기");
+  const result = await BUCKET.create(body);
+  console.log("데이터 추가하기", result);
   console.log(body);
-  res.send("끝");
+  res.json({ result: "OK" });
 });
 
-router.put("/bucket", (req, res) => {
+router.put("/bucket", async (res, req) => {
   const body = req.body;
-  console.log("데이터 업데이트 하기");
+  await BUCKET.findOneAndUpdate({ b_id: body.b_id }, body);
+  res.json({ result: "OK" });
 });
 
-// localhost:3000/api/get
-router.get("/get", (req, res) => {
+/**
+ * findOne() 이 return 하는 doc 가 성능상 문제로
+ * null 값이 되어 overwrite() 가 비정상 작동되므로 사용하지말자!!
+ */
+
+router.put("/bucket/over", async (req, res) => {
+  const body = req.body;
+  // ORM 방식
+  // DB에서 b_id 값이 body.b_id 와 같은 데이터를 SELECT 하기
+  const doc = await BUCKET.findOne({ b_id: body.b_id });
+  console.log(doc);
+  // select 한 model 객체의 모든 요소 데이터를
+  // body로 받은 데이터로 변경하라
+  // doc={...doc,b_id:body.b_id,b_title:body.b_title}
+  await doc.overwrite(body);
+  // 변경된 데이터를 DB update 하라
+  await doc.save();
+
+  await console.log("데이터 업데이트 하기");
+  await console.table(body);
+});
+
+// localhost:3000/api/get/1
+router.get("/get", async (req, res) => {
+  const buckets = await BUCKET.find({});
   console.log("전체 리스트 요청하기");
-  res.json(retData);
+  res.json(buckets);
 });
 
 // localhost:3000/api/1/get
