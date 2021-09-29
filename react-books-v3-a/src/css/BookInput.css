@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+div.book_input {
+  width: 80%;
+  margin: 20px auto;
+  border: 1px solid gray;
+}
+
+div.book_input label,
+div.book_input input {
+  display: inline-block;
+
+  padding: 8px;
+  margin: 5px;
+}
+div.book_input input {
+  width: 30%;
+}
+div.book_input label {
+  width: 5%;
+}
+div.book_input button {
+  padding: 1rem;
+  width: 20%;
+  background-color: blue;
+  margin: 10px auto;
+  color: white;
+}
+
+div.book_input button:hover {
+  cursor: pointer;
+}
