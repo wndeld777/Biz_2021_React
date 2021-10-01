@@ -24,11 +24,15 @@ const AppContext = createContext();
  */
 
 // user Hook
-// react 에서 기본적으로 제공하는 hook()을 Custumizing하기
-// useContext()는 초기에 생성한 Context를 항상 import 하여
+// react에서 기본적으로 제공하는 hook()을 Custumizing하기
+
+// useContext()는 초기에 생성한 Context를 항상 import하여
 // 매개변수로 전달해야 하는 불편함이 있다
-// AppContext 를 바라볼수 있는(직접접근할 수 있는) 곳에서
-// useContext(Context) 실행하여
+// AppContext를 바라볼수 있는(직접접근할 수 있는) 곳에서
+// useContext(Context)실행하여 매개변수를 지정하지 않아도
+// 사용할수 있도록 변경한 Hook
+// Hook은 무조건 use로 시작해야 한다.
+// Camel Case 로 명명해야 한다
 export const useBookContext = () => {
   return useContext(AppContext);
 };
