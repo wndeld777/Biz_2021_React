@@ -1,0 +1,15 @@
+.insert_input {
+  width: 80%;
+  margin: 20px auto;
+}
+input {
+  margin: 5px;
+  padding: 1rem;
+}
+
+button {
+  padding: 0.9rem;
+  background-color: yellow;
+  box-shadow: 2px 2px 2px gray;
+  border: 1px solid gray;
+}

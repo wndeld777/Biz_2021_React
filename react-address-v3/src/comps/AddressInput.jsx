@@ -1,4 +1,5 @@
 import UUID from "react-uuid";
+import "../css/addressInput.css";
 
 function AddressInput({ stateGroup }) {
   //const {stateGroup} = props;
@@ -9,12 +10,13 @@ function AddressInput({ stateGroup }) {
     setAddress({ ...address, [name]: value });
   };
   const addrBookInsert = () => {
+    alert("등록 완료");
     setAddress({ ...address, a_id: UUID() });
     setAddrBook([...addrBook, address]);
   };
 
   return (
-    <div>
+    <div className="insert_input">
       <input
         value={address.a_name}
         readOnly

@@ -1,0 +1,22 @@
+table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+th,
+td {
+  border: 1px solid black;
+  padding: 0.6rem;
+}
+thead tr {
+  background-color: yellow;
+  color: black;
+}
+.addr_list:hover {
+  cursor: pointer;
+  background-color: #ccc;
+}
+
+tbody tr:nth-child(2n + 1) {
+  background-color: #eee;
+}
