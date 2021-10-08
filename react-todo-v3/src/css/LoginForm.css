@@ -1,0 +1,11 @@
+.login_form {
+  width: 30%;
+  margin: 5px auto;
+  padding: 1rem;
+  display: inline-block;
+}
+input,
+button {
+  width: 100%;
+  padding: 1rem;
+}

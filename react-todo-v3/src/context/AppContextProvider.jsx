@@ -35,6 +35,10 @@ function AppContextProvider({ children }) {
     t_text: "리액트 복습",
     t_comp: false,
   });
+  const [user, setUser] = useState({
+    userid: "",
+    password: "",
+  });
 
   const [todoList, setTodoList] = useState([todo]);
 
@@ -117,6 +121,8 @@ function AppContextProvider({ children }) {
   const propsStrore = {
     todo,
     todoList,
+    user,
+    setUser,
     onChange,
     onClick,
     onKeyPress,

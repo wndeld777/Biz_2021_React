@@ -1,6 +1,7 @@
 import "../css/JoinForm.css";
-
 import React, { useState } from "react";
+import { fetchJoin } from "../modules/fetchMoudle";
+import { useHistory } from "react-router-dom";
 
 function JoinForm() {
   const [joinUser, setJoinUser] = useState({
@@ -9,6 +10,8 @@ function JoinForm() {
     re_password: "",
     email: "",
   });
+
+  const history = useHistory();
 
   const onChangeAccount = (e) => {
     const { name, value } = e.target;
@@ -46,19 +49,8 @@ function JoinForm() {
       password: joinUser.password,
       email: joinUser.email,
     };
-
-    const response = await fetch("http://localhost:8080/users/join", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(joinData),
-    });
-
-    if (response.ok) {
-      const json = await response.json();
-      alert(JSON.stringify(json));
-    }
+    fetchJoin(joinData);
+    history.replace("/login");
   };
 
   return (
