@@ -5,7 +5,10 @@
   display: inline-block;
 }
 input,
-button {
-  width: 100%;
+.btn_login {
+  width: 90%;
   padding: 1rem;
+}
+.btn_login {
+  margin: 10px;
 }

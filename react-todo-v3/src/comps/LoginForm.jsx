@@ -4,6 +4,7 @@ import { useTodoContext } from "../context/AppContextProvider";
 import "../css/LoginForm.css";
 
 function LoginFrom() {
+  const { setUser } = useTodoContext();
   const [account, setAccount] = useState({
     userid: "",
     password: "",
@@ -39,7 +40,7 @@ function LoginFrom() {
         return;
       }
       alert("로그인 성공");
-
+      await setUser(resultUser);
       history.replace("/");
     }
   };
@@ -53,7 +54,9 @@ function LoginFrom() {
         placeholder="password"
         onChange={onChange}
       />
-      <button className="btn_login" onClick={onLogin}>로그인</button>
+      <button className="btn_login" onClick={onLogin}>
+        로그인
+      </button>
     </div>
   );
 }
