@@ -32,19 +32,16 @@ function AppContextProvider({ children }) {
   // TODO 정보 1개를 보관할 state
   const [todo, setTodo] = useState({
     t_id: 0,
-    t_text: "리액트 복습",
+    t_text: "TodoList Project",
     t_comp: false,
   });
-  const [user, setUser] = useState({
-    userid: "",
-    password: "",
-  });
 
-  const [todoList, setTodoList] = useState([todo]);
+  const [todoList, setTodoList] = useState([]);
 
   // Referrence 변수선언하기
 
   const nextId = useRef(0);
+  const inputId = useRef();
 
   const onChange = (e) => {
     const t_text = e.target.value;
@@ -57,6 +54,11 @@ function AppContextProvider({ children }) {
 
   // 리스트에 추가하기
   const todoInsert = () => {
+    if (todo.t_text === "") {
+      window.alert("할일을 입력하세요");
+      inputId.current.focus();
+      return;
+    }
     setTodoList([...todoList, todo]);
     nextId.current++;
     console.log(nextId.current);
@@ -84,45 +86,33 @@ function AppContextProvider({ children }) {
 
   const onDeleteClick = (e) => {
     if (window.confirm("삭제할까요?")) {
-      // data-todo-id 라고 저장하면 앞에 data- 는 dataset으로 변경
-      // todo-id 는 lower Camel case 로 변경되어 todoId 변수에서
-      // 		getter 한다
       const t_id = Number(e.target.dataset.todoId);
-      // 배열요소중에서 t_id 일치하는 요소를 삭제하기
-      // 원래 배열요소를 filtering하는데...
-      // t_id 값이 dataset의 todoId 와 일치하지 않는 것만 새로운 배열로 만들어라
+      alert(t_id);
+
       const _todoList = todoList.filter((todo) => todo.t_id !== t_id);
       setTodoList(_todoList);
-
-      // alert("삭제됨");
     }
   };
+
   const onCompClick = (e) => {
     const t_id = Number(e.target.dataset.todoId);
 
-    // 배열요소중에 조건에 맞는 값이 있으면 그 값이 몇번째
-    // 요소인지 index를 return 한다
     const index = todoList.findIndex((todo) => todo.t_id === t_id);
-    // 찾았으면 ~~~
-    if (index) {
-      // 해당 요소만 따로 추출하여 selectTodo 에 담기
-      const selectTodo = todoList[index];
-      const _todoList = [...todoList];
-      _todoList[index] = {
-        ...selectTodo,
-        t_comp: selectTodo.t_comp,
-      };
-      setTodoList(_todoList);
-    }
 
-    //alert("OK");
+    const selectTodo = todoList[index];
+
+    const _todoList = [...todoList];
+    _todoList[index] = {
+      ...selectTodo,
+      t_comp: !selectTodo.t_comp,
+    };
+    setTodoList(_todoList);
   };
 
   const propsStrore = {
     todo,
     todoList,
-    user,
-    setUser,
+    inputId,
     onChange,
     onClick,
     onKeyPress,

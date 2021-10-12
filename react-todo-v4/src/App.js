@@ -9,10 +9,7 @@ import { UserContextProvider } from "./context";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-
+      <header className="App-header"></header>
       {/*  TodoMain.jsx Layout을 사용하여 TODO 화면을 구현   */}
       <UserContextProvider>
         <LoginRoute>
@@ -21,21 +18,13 @@ function App() {
           </Route>
           <Route exact path="/">
             <AuthRoute>
-              <TodoMain header="이번주에 할 일" form={<TodoInput />}>
+              <TodoMain header="이번주에 할일" form={<TodoInput />}>
                 <TodoList />
               </TodoMain>
             </AuthRoute>
           </Route>
         </LoginRoute>
       </UserContextProvider>
-
-      <MyButton />
-      <HomeButton />
-      <CompButton onClick={() => alert("집에가자")}>우리집</CompButton>
-      <CompButton>서울로</CompButton>
-      <CompButton>제주로</CompButton>
-      <CompButton>미국으로</CompButton>
-      <CompButton>북극으로</CompButton>
     </div>
   );
 }

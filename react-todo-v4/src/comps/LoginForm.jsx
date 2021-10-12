@@ -22,21 +22,37 @@ function LoginForm() {
     const resultUser = await fetchLogin(userid, password);
     await setUser(resultUser);
     history.replace("/");
+    if (!resultUser?.userid) {
+      alert("아이디와 비밀번호를 확인해주세요");
+      history.replace("/login");
+    }
   };
 
   return (
     <div className="login_form">
-      <input
-        name="userid"
-        placeholder="아이디를 입력하세요"
-        onChange={onChage}
-      />
-      <input
-        name="password"
-        type="password"
-        placeholder="비빌번호를 입력하세요"
-        onChange={onChage}
-      />
+      <h1>Login</h1>
+      <div className="input-box">
+        <input
+          id="username"
+          type="text"
+          name="userid"
+          placeholder="아이디"
+          onChange={onChage}
+        />
+        <label for="username">아이디</label>
+      </div>
+
+      <div className="input-box">
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="비밀번호"
+          onChange={onChage}
+        />
+        <label type="password">비밀번호</label>
+      </div>
+
       <button onClick={onLogin}>로그인</button>
     </div>
   );

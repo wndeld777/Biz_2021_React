@@ -9,17 +9,16 @@ function AuthRoute({ children }) {
 
   const fetchCallback = useCallback(async () => {
     const resultUser = await fetchUser();
-
     if (!resultUser?.userid) {
       history.replace("/login");
     }
     setUser(resultUser);
-    if (!user?.userid) {
-      history.replace("/login");
-    }
-  });
-  useEffect(fetchCallback, [fetchCallback]);
+    //if (!user?.userid) {
+    //  history.replace("/login");
 
+    //}
+  }, [history, setUser]);
+  useEffect(fetchCallback, [fetchCallback]);
   return <>{children}</>;
 }
 

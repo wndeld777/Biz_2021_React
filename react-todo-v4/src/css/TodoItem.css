@@ -28,5 +28,5 @@
 }
 .checked {
   text-decoration-line: line-through;
-  color: #adb5bd;
+  color: red;
 }

@@ -5,13 +5,12 @@ const UserContext = createContext();
 export const useUserContext = () => useContext(UserContext);
 
 function UserContextProvider({ children }) {
-  const [user, setUser] = useState({
-    //    userid: "root",
-  });
+  const [user, setUser] = useState();
 
-  const porpsData = { user, setUser };
+  const propsData = { user, setUser };
+
   return (
-    <UserContextProvider value={porpsData}>{children}</UserContextProvider>
+    <UserContext.Provider value={propsData}>{children}</UserContext.Provider>
   );
 }
 
