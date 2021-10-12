@@ -4,7 +4,6 @@ import { useTodoContext } from "../context/AppContextProvider";
 import "../css/LoginForm.css";
 
 function LoginFrom() {
-  const { setUser } = useTodoContext();
   const [account, setAccount] = useState({
     userid: "",
     password: "",
@@ -40,7 +39,7 @@ function LoginFrom() {
         return;
       }
       alert("로그인 성공");
-      await setUser(resultUser);
+
       history.replace("/");
     }
   };

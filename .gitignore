@@ -2,6 +2,7 @@
 FirebaseConfig.*
 mongoConfig.json
 mongoConfig.js
+google.json
 
 # Logs
 logs
